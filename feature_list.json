@@ -4,7 +4,12 @@
   "rules": {
     "one_feature_at_a_time": true,
     "require_tests_to_close": true,
-    "valid_status": ["pending", "in_progress", "done", "blocked"]
+    "valid_status": [
+      "pending",
+      "in_progress",
+      "done",
+      "blocked"
+    ]
   },
   "features": [
     {
@@ -17,7 +22,7 @@
         "divide(a, 0) lanza un Error con mensaje 'Division by zero'",
         "Existe src/app/calculator/engine.spec.ts que cubre las 4 operaciones con números positivos, negativos y decimales, más el caso división por cero"
       ],
-      "status": "pending"
+      "status": "done"
     },
     {
       "id": 2,
