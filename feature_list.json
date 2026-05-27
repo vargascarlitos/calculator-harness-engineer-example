@@ -1,0 +1,74 @@
+{
+  "project": "calculator",
+  "description": "Calculadora en Angular. Sirve como ejemplo didáctico de Harness Engineering sobre un stack frontend real. Lógica pura primero, UI después.",
+  "rules": {
+    "one_feature_at_a_time": true,
+    "require_tests_to_close": true,
+    "valid_status": ["pending", "in_progress", "done", "blocked"]
+  },
+  "features": [
+    {
+      "id": 1,
+      "name": "calc_engine",
+      "title": "Motor aritmético (funciones puras)",
+      "description": "Operaciones aritméticas básicas como funciones puras, sin estado ni DOM.",
+      "acceptance": [
+        "Existe src/app/calculator/engine.ts que exporta add, subtract, multiply, divide (cada una (a: number, b: number) => number)",
+        "divide(a, 0) lanza un Error con mensaje 'Division by zero'",
+        "Existe src/app/calculator/engine.spec.ts que cubre las 4 operaciones con números positivos, negativos y decimales, más el caso división por cero"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": 2,
+      "name": "calc_service",
+      "title": "Servicio de estado de la calculadora",
+      "description": "Mantiene el estado de una calculadora de una sola operación (operando A, operador, operando B) y produce el resultado usando el motor.",
+      "acceptance": [
+        "Existe src/app/calculator/calculator.service.ts (Injectable) con: inputDigit(d: string), setOperator(op: '+'|'-'|'*'|'/'), equals(), clear()",
+        "display(): string devuelve el valor actual mostrado (arranca en '0')",
+        "inputDigit concatena dígitos al operando en curso; clear() resetea a '0'",
+        "equals() aplica el operador entre los dos operandos usando engine.ts y deja el resultado como display",
+        "Dividir por cero deja el display en 'Error' en vez de propagar la excepción",
+        "Existe calculator.service.spec.ts que cubre: una suma completa (1+2=3), encadenar dígitos (1,2 -> '12'), clear, y división por cero -> 'Error'"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": 3,
+      "name": "display_component",
+      "title": "Componente de display",
+      "description": "Muestra el valor actual de la calculadora.",
+      "acceptance": [
+        "Existe src/app/components/display/display.ts (standalone) que inyecta CalculatorService",
+        "Renderiza CalculatorService.display() dentro de un elemento con data-testid='display'",
+        "Existe display.spec.ts que verifica que el texto renderizado refleja el display del servicio"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": 4,
+      "name": "keypad_component",
+      "title": "Componente de teclado",
+      "description": "Botones de dígitos, operadores, igual y limpiar que accionan el servicio.",
+      "acceptance": [
+        "Existe src/app/components/keypad/keypad.ts (standalone) con botones 0-9, +, -, *, /, =, C",
+        "Cada botón llama al método correspondiente de CalculatorService (inputDigit/setOperator/equals/clear)",
+        "Existe keypad.spec.ts que, con un CalculatorService real, simula clicks de '1','+','2','=' y verifica que el servicio queda en display '3'"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": 5,
+      "name": "app_wiring",
+      "title": "Ensamblado en la app raíz",
+      "description": "La app raíz monta el display y el teclado para formar la calculadora visible.",
+      "acceptance": [
+        "src/app/app.ts importa y el template app.html renderiza <app-display> y <app-keypad>",
+        "El test app.spec.ts existente sigue verde tras el cambio (ajustado si hace falta)",
+        "Existe cobertura que verifica que la app raíz contiene un elemento con data-testid='display'"
+      ],
+      "status": "pending"
+    }
+  ]
+}

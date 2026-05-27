@@ -1,0 +1,38 @@
+{
+  "$schema_comment": "Hooks que automatizan la verificación. Los ejecuta el harness, no el agente, así que no se pueden saltar.",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npx tsc --noEmit -p tsconfig.app.json 2>&1 | tail -5 || true",
+            "description": "Typecheck rápido tras cada edición. Feedback barato; la suite pesada va en el hook Stop."
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "./init.sh > /tmp/calc_init.log 2>&1 && echo '[harness] init.sh OK' || (echo '[harness] init.sh FALLO — revisa /tmp/calc_init.log antes de cerrar' && tail -20 /tmp/calc_init.log)",
+            "description": "Antes de cerrar la sesión, fuerza una verificación completa (build + tests headless)."
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "Bash(./init.sh)",
+      "Bash(npm run build*)",
+      "Bash(npm run test:ci*)",
+      "Bash(npx tsc*)",
+      "Bash(ng test*)",
+      "Bash(ng build*)"
+    ]
+  }
+}

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "notes-web": {
+    "calculator": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -56,10 +56,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "notes-web:build:production"
+              "buildTarget": "calculator:build:production"
             },
             "development": {
-              "buildTarget": "notes-web:build:development"
+              "buildTarget": "calculator:build:development"
             }
           },
           "defaultConfiguration": "development"
